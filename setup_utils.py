@@ -9,13 +9,13 @@ def setup_env(moodle_src_dir):
 
 def get_docker_compose_command():
     if os.name == 'nt':
-        return 'bin/moodle-docker-compose.cmd'
+        return os.path.join('bin', 'moodle-docker-compose.cmd')
     else:
-        return 'bin/moodle-docker-compose'
+        return os.path.join('bin', 'moodle-docker-compose')
 
 def clone_or_update_modules(MOODLE_SRC_DIR, MODULE_INSTALL_DIR,MODULE_NAME,GIT_REPO_URL):
-    os.chdir(MOODLE_SRC_DIR + '/mod')
-    MODULE_FULLDIR = MOODLE_SRC_DIR + '/'+ MODULE_INSTALL_DIR + '/' + MODULE_NAME
+    os.chdir(os.path.join(MOODLE_SRC_DIR, MODULE_INSTALL_DIR))
+    MODULE_FULLDIR = os.path.join(MOODLE_SRC_DIR, MODULE_INSTALL_DIR,MODULE_NAME)
     if not os.path.isdir(MODULE_FULLDIR):
         Repo.clone_from(
         GIT_REPO_URL,

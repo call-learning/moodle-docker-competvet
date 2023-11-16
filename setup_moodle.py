@@ -6,11 +6,11 @@ import setup_utils
 # Get current directory in CURRENT_DIR variable
 
 CURRENT_DIR = os.getcwd()
-MOODLE_SRC_DIR = CURRENT_DIR + '/moodle-src'
+MOODLE_SRC_DIR = os.path.join(CURRENT_DIR, 'moodle-src')
 if not os.path.isdir(MOODLE_SRC_DIR):
     os.mkdir(MOODLE_SRC_DIR)
 # Check if moodle-src is empty and has a git repository cloned already
-if os.path.isdir(MOODLE_SRC_DIR + '/.git'):
+if os.path.isdir(os.path.join(MOODLE_SRC_DIR, '.git')):
     print('moodle-src already has a git repository. Assuming this is the '
           'moodle repository.')
 else:
@@ -23,20 +23,22 @@ os.chdir(MOODLE_SRC_DIR)
 Repo().git.checkout('MOODLE_401_STABLE')
 # Then add two modules
 print('Cloning CompetVetEval Module plugin.')
-setup_utils.clone_or_update_modules(MOODLE_SRC_DIR, '/mod/','competvet','https://github.com/call-learning/moodle-mod_competvet.git')
+setup_utils.clone_or_update_modules(MOODLE_SRC_DIR, 'mod','competvet','https://github.com/call-learning/moodle-mod_competvet.git')
 
 print('Cloning CompetVetEval Local plugin.')
-setup_utils.clone_or_update_modules(MOODLE_SRC_DIR, '/local/','competvet','https://github.com/call-learning/moodle-local_competvet.git')
+setup_utils.clone_or_update_modules(MOODLE_SRC_DIR, 'local','competvet','https://github.com/call-learning/moodle-local_competvet.git')
 
 setup_utils.setup_env(MOODLE_SRC_DIR)
 
 # copy the moodle-docker/config.docker-template.php to moodle-src/config.php
-if not os.path.isfile(MOODLE_SRC_DIR + '/config.php'):
-    shutil.copyfile(CURRENT_DIR + '/moodle-docker/config.docker-template.php', MOODLE_SRC_DIR + '/config.php')
+if not os.path.isfile(os.path.join(MOODLE_SRC_DIR,'config.php')):
+    shutil.copyfile(
+        os.path.join(CURRENT_DIR, 'moodle-docker/config.docker-template.php'),
+        os.path.join(MOODLE_SRC_DIR, 'config.php'))
 
 # depending if on windows or linux, run the appropriate docker-compose command to start the containers
 print('Bringing container up.')
-os.chdir(CURRENT_DIR + '/moodle-docker')
+os.chdir(os.path.join(CURRENT_DIR, 'moodle-docker'))
 DOCKER_COMPOSE_CMD = setup_utils.get_docker_compose_command()
 os.system(DOCKER_COMPOSE_CMD + ' up -d')
 setup_utils.wait_for_db()
