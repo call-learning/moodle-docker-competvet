@@ -33,7 +33,7 @@ setup_utils.setup_env(MOODLE_SRC_DIR)
 # copy the moodle-docker/config.docker-template.php to moodle-src/config.php
 if not os.path.isfile(os.path.join(MOODLE_SRC_DIR,'config.php')):
     shutil.copyfile(
-        os.path.join(CURRENT_DIR, 'moodle-docker/config.docker-template.php'),
+        os.path.join(CURRENT_DIR, 'config.docker-template.php'),
         os.path.join(MOODLE_SRC_DIR, 'config.php'))
 
 # depending if on windows or linux, run the appropriate docker-compose command to start the containers

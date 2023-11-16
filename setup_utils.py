@@ -23,7 +23,8 @@ def clone_or_update_modules(MOODLE_SRC_DIR, MODULE_INSTALL_DIR,MODULE_NAME,GIT_R
     else:
         print('Module plugin already cloned. Assuming this is the '
           'plugin repository, updating it.')
-        Repo(MODULE_FULLDIR).git.pull()
+        Repo(MODULE_FULLDIR).git.fetch()
+        Repo(MODULE_FULLDIR).head.reset('origin/master', working_tree=True)
 
 def wait_for_db():
     DOCKER_COMPOSE_CMD = get_docker_compose_command()
