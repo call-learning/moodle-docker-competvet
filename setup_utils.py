@@ -37,5 +37,4 @@ def wait_for_db():
 def run_moodle_cli(CLI_COMMAND, *ARGS):
     DOCKER_COMPOSE_CMD = get_docker_compose_command()
     # Call a external command and send argments separated by space
-    os.system(DOCKER_COMPOSE_CMD + ' exec -T webserver php ' + CLI_COMMAND + ' ' + ' '.join(ARGS))
-
+    os.system(DOCKER_COMPOSE_CMD + ' exec -u www-data webserver php ' + CLI_COMMAND + ' ' + ' '.join(ARGS))
